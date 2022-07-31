@@ -1,5 +1,5 @@
 {
-  "name": "cz-gitmoji",
+  "name": "cz-gitmojis",
   "version": "1.0.0",
   "description": "Commitizen adapter following gitmoji format.",
   "main": "index.js",
