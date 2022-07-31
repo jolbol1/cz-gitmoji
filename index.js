@@ -1,12 +1,12 @@
 'format cjs';
 
 var engine = require('./engine');
-var conventionalCommitTypes = require('conventional-commit-types');
 var configLoader = require('commitizen').configLoader;
+var gitmojiTypes = require('./types');
 
 var config = configLoader.load() || {};
 var options = {
-  types: config.types || conventionalCommitTypes.types,
+  types: config.types || gitmojiTypes,
   defaultType: process.env.CZ_TYPE || config.defaultType,
   defaultScope: process.env.CZ_SCOPE || config.defaultScope,
   defaultSubject: process.env.CZ_SUBJECT || config.defaultSubject,
@@ -20,12 +20,12 @@ var options = {
     (process.env.CZ_MAX_HEADER_WIDTH &&
       parseInt(process.env.CZ_MAX_HEADER_WIDTH)) ||
     config.maxHeaderWidth ||
-    100,
+    50,
   maxLineWidth:
     (process.env.CZ_MAX_LINE_WIDTH &&
       parseInt(process.env.CZ_MAX_LINE_WIDTH)) ||
     config.maxLineWidth ||
-    100
+    72
 };
 
 (function(options) {
@@ -48,3 +48,4 @@ var options = {
 })(options);
 
 module.exports = engine(options);
+module.exports;

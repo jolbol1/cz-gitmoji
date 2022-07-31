@@ -4,7 +4,7 @@ var engine = require('./engine');
 var mock = require('mock-require');
 var semver = require('semver');
 
-var types = require('conventional-commit-types').types;
+var types = require('./types');
 
 var expect = chai.expect;
 chai.should();
@@ -16,7 +16,6 @@ var defaultOptions = {
 };
 
 var type = 'func';
-var scope = 'everything';
 var subject = 'testing123';
 var longBody =
   'a a aa a aa a aa a aa a aa a aa a aa a aa a aa a aa a aa a aa a aa a aa a' +
@@ -48,58 +47,22 @@ var longIssuesSplit =
   longIssues.slice(defaultOptions.maxLineWidth * 2, longIssues.length).trim();
 
 describe('commit message', function() {
-  it('only header w/ out scope', function() {
+  it('only header', function() {
     expect(
       commitMessage({
         type,
         subject
       })
-    ).to.equal(`${type}: ${subject}`);
+    ).to.equal(`${type} ${subject}`);
   });
-  it('only header w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject
-      })
-    ).to.equal(`${type}(${scope}): ${subject}`);
-  });
-  it('header and body w/ out scope', function() {
+  it('header and body', function() {
     expect(
       commitMessage({
         type,
         subject,
         body
       })
-    ).to.equal(`${type}: ${subject}\n\n${body}`);
-  });
-  it('header and body w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject,
-        body
-      })
-    ).to.equal(`${type}(${scope}): ${subject}\n\n${body}`);
-  });
-  it('header and body w/ uppercase scope', function() {
-    var upperCaseScope = scope.toLocaleUpperCase();
-    expect(
-      commitMessage(
-        {
-          type,
-          scope: upperCaseScope,
-          subject,
-          body
-        },
-        {
-          ...defaultOptions,
-          disableScopeLowerCase: true
-        }
-      )
-    ).to.equal(`${type}(${upperCaseScope}): ${subject}\n\n${body}`);
+    ).to.equal(`${type} ${subject}\n\n${body}`);
   });
   it('header and body w/ uppercase subject', function() {
     var upperCaseSubject = subject.toLocaleUpperCase();
@@ -107,7 +70,6 @@ describe('commit message', function() {
       commitMessage(
         {
           type,
-          scope,
           subject: upperCaseSubject,
           body
         },
@@ -116,9 +78,9 @@ describe('commit message', function() {
           disableSubjectLowerCase: true
         }
       )
-    ).to.equal(`${type}(${scope}): ${upperCaseSubject}\n\n${body}`);
+    ).to.equal(`${type} ${upperCaseSubject}\n\n${body}`);
   });
-  it('header, body and issues w/ out scope', function() {
+  it('header, body and issues', function() {
     expect(
       commitMessage({
         type,
@@ -126,20 +88,9 @@ describe('commit message', function() {
         body,
         issues
       })
-    ).to.equal(`${type}: ${subject}\n\n${body}\n\n${issues}`);
+    ).to.equal(`${type} ${subject}\n\n${body}\n\n${issues}`);
   });
-  it('header, body and issues w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject,
-        body,
-        issues
-      })
-    ).to.equal(`${type}(${scope}): ${subject}\n\n${body}\n\n${issues}`);
-  });
-  it('header, body and long issues w/ out scope', function() {
+  it('header, body and long issues', function() {
     expect(
       commitMessage({
         type,
@@ -147,41 +98,18 @@ describe('commit message', function() {
         body,
         issues: longIssues
       })
-    ).to.equal(`${type}: ${subject}\n\n${body}\n\n${longIssuesSplit}`);
+    ).to.equal(`${type} ${subject}\n\n${body}\n\n${longIssuesSplit}`);
   });
-  it('header, body and long issues w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject,
-        body,
-        issues: longIssues
-      })
-    ).to.equal(
-      `${type}(${scope}): ${subject}\n\n${body}\n\n${longIssuesSplit}`
-    );
-  });
-  it('header and long body w/ out scope', function() {
+  it('header and long body', function() {
     expect(
       commitMessage({
         type,
         subject,
         body: longBody
       })
-    ).to.equal(`${type}: ${subject}\n\n${longBodySplit}`);
+    ).to.equal(`${type} ${subject}\n\n${longBodySplit}`);
   });
-  it('header and long body w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject,
-        body: longBody
-      })
-    ).to.equal(`${type}(${scope}): ${subject}\n\n${longBodySplit}`);
-  });
-  it('header, long body and issues w/ out scope', function() {
+  it('header, long body and issues', function() {
     expect(
       commitMessage({
         type,
@@ -189,22 +117,9 @@ describe('commit message', function() {
         body: longBody,
         issues
       })
-    ).to.equal(`${type}: ${subject}\n\n${longBodySplit}\n\n${issues}`);
+    ).to.equal(`${type} ${subject}\n\n${longBodySplit}\n\n${issues}`);
   });
-  it('header, long body and issues w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
-        subject,
-        body: longBody,
-        issues
-      })
-    ).to.equal(
-      `${type}(${scope}): ${subject}\n\n${longBodySplit}\n\n${issues}`
-    );
-  });
-  it('header, long body and long issues w/ out scope', function() {
+  it('header, long body and long issues', function() {
     expect(
       commitMessage({
         type,
@@ -212,47 +127,32 @@ describe('commit message', function() {
         body: longBody,
         issues: longIssues
       })
-    ).to.equal(`${type}: ${subject}\n\n${longBodySplit}\n\n${longIssuesSplit}`);
+    ).to.equal(`${type} ${subject}\n\n${longBodySplit}\n\n${longIssuesSplit}`);
   });
-  it('header, long body and long issues w/ scope', function() {
+  it('header, long body, breaking change, and long issues', function() {
     expect(
       commitMessage({
         type,
-        scope,
-        subject,
-        body: longBody,
-        issues: longIssues
-      })
-    ).to.equal(
-      `${type}(${scope}): ${subject}\n\n${longBodySplit}\n\n${longIssuesSplit}`
-    );
-  });
-  it('header, long body, breaking change, and long issues w/ scope', function() {
-    expect(
-      commitMessage({
-        type,
-        scope,
         subject,
         body: longBody,
         breaking,
         issues: longIssues
       })
     ).to.equal(
-      `${type}(${scope}): ${subject}\n\n${longBodySplit}\n\n${breakingChange}${breaking}\n\n${longIssuesSplit}`
+      `${type} ${subject}\n\n${longBodySplit}\n\n${breakingChange}${breaking}\n\n${longIssuesSplit}`
     );
   });
-  it('header, long body, breaking change (with prefix entered), and long issues w/ scope', function() {
+  it('header, long body, breaking change (with prefix entered), and long issues', function() {
     expect(
       commitMessage({
         type,
-        scope,
         subject,
         body: longBody,
         breaking: `${breakingChange}${breaking}`,
         issues: longIssues
       })
     ).to.equal(
-      `${type}(${scope}): ${subject}\n\n${longBodySplit}\n\n${breakingChange}${breaking}\n\n${longIssuesSplit}`
+      `${type} ${subject}\n\n${longBodySplit}\n\n${breakingChange}${breaking}\n\n${longIssuesSplit}`
     );
   });
 });
@@ -262,19 +162,17 @@ describe('validation', function() {
     expect(() =>
       commitMessage({
         type,
-        scope,
         subject: longBody
       })
     ).to.throw(
       'length must be less than or equal to ' +
-        `${defaultOptions.maxLineWidth - type.length - scope.length - 4}`
+        `${defaultOptions.maxLineWidth - type.length - 2}`
     );
   });
   it('empty subject', function() {
     expect(() =>
       commitMessage({
         type,
-        scope,
         subject: ''
       })
     ).to.throw('subject is required');
@@ -290,13 +188,6 @@ describe('defaults', function() {
       questionDefault('type', customOptions({ defaultType: type }))
     ).to.equal(type);
   });
-  it('defaultScope default', function() {
-    expect(questionDefault('scope')).to.be.undefined;
-  });
-  it('defaultScope options', () =>
-    expect(
-      questionDefault('scope', customOptions({ defaultScope: scope }))
-    ).to.equal(scope));
 
   it('defaultSubject default', () =>
     expect(questionDefault('subject')).to.be.undefined);
@@ -331,26 +222,12 @@ describe('defaults', function() {
       )
     ).to.equal(issues);
   });
-  it('disableScopeLowerCase default', function() {
-    expect(questionDefault('disableScopeLowerCase')).to.be.undefined;
-  });
-  it('disableSubjectLowerCase default', function() {
-    expect(questionDefault('disableSubjectLowerCase')).to.be.undefined;
-  });
 });
 
 describe('prompts', function() {
-  it('commit subject prompt for commit w/ out scope', function() {
+  it('commit subject prompt for commit', function() {
     expect(questionPrompt('subject', { type })).to.contain(
       `(max ${defaultOptions.maxHeaderWidth - type.length - 2} chars)`
-    );
-  });
-  it('commit subject prompt for commit w/ scope', function() {
-    expect(questionPrompt('subject', { type, scope })).to.contain(
-      `(max ${defaultOptions.maxHeaderWidth -
-        type.length -
-        scope.length -
-        4} chars)`
     );
   });
 });
@@ -373,8 +250,6 @@ describe('transformation', function() {
 });
 
 describe('filter', function() {
-  it('lowercase scope', () =>
-    expect(questionFilter('scope', 'HelloMatt')).to.equal('hellomatt'));
   it('lowerfirst subject trimmed and trailing dots striped', () =>
     expect(questionFilter('subject', '  A subject...  ')).to.equal(
       'a subject'
@@ -446,7 +321,7 @@ describe('commitlint config header-max-length', function() {
 
     it('with no environment or commitizen config override', function() {
       return mockOptions(72).then(function(options) {
-        expect(options).to.have.property('maxHeaderWidth', 72);
+        expect(options).to.have.property('maxHeaderWidth', 50);
       });
     });
 
