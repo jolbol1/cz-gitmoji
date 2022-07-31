@@ -8,10 +8,10 @@
     "test": "mocha *.test.js",
     "format": "prettier --write *.js"
   },
-  "homepage": "https://github.com/jolbol1/cz-gitmoji",
+  "homepage": "https://github.com/jolbol1/cz-gitmojis",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jolbol1/cz-gitmoji.git"
+    "url": "https://github.com/jolbol1/cz-gitmojis.git"
   },
   "engineStrict": true,
   "engines": {
