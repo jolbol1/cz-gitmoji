@@ -57,6 +57,8 @@ Using emojis on commit messages provides an easy way of identifying the purpose 
 
 ## Usage
 
+This guide assumes you already have commitizen. To add the adaptor run `npm i cz-gitmojis`
+
 ### Configuration
 
 #### package.json
