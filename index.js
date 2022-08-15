@@ -8,12 +8,9 @@ var config = configLoader.load() || {};
 var options = {
   types: config.types || gitmojiTypes,
   defaultType: process.env.CZ_TYPE || config.defaultType,
-  defaultScope: process.env.CZ_SCOPE || config.defaultScope,
   defaultSubject: process.env.CZ_SUBJECT || config.defaultSubject,
   defaultBody: process.env.CZ_BODY || config.defaultBody,
   defaultIssues: process.env.CZ_ISSUES || config.defaultIssues,
-  disableScopeLowerCase:
-    process.env.DISABLE_SCOPE_LOWERCASE || config.disableScopeLowerCase,
   disableSubjectLowerCase:
     process.env.DISABLE_SUBJECT_LOWERCASE || config.disableSubjectLowerCase,
   maxHeaderWidth:
