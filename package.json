@@ -1,6 +1,6 @@
 {
   "name": "cz-gitmojis",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "Commitizen adapter following gitmoji format.",
   "main": "index.js",
   "scripts": {
@@ -20,15 +20,15 @@
   "author": "Jolbol1 <github@jamesshopland.com>",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^2.4.1",
-    "gitmojis": "^3.11.1",
+    "chalk": "^3.0.0",
+    "gitmojis": "^3.13.4",
     "lodash.map": "^4.5.1",
     "longest": "^2.0.1",
     "word-wrap": "^1.0.3"
   },
   "devDependencies": {
-    "@types/chai": "4.3.0",
-    "@types/mocha": "9.1.0",
+    "@types/chai": "4.3.3",
+    "@types/mocha": "9.1.1",
     "chai": "4.3.6",
     "commitizen": "^4.2.5",
     "cosmiconfig": "5.2.1",
