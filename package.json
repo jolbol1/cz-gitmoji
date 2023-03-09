@@ -35,7 +35,7 @@
     "mocha": "10.2.0",
     "mock-require": "3.0.3",
     "prettier": "2.8.4",
-    "semver": "6.3.0"
+    "semver": "7.3.8"
   },
   "optionalDependencies": {
     "@commitlint/load": "^17.0.3"
