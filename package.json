@@ -27,7 +27,7 @@
     "word-wrap": "^1.0.3"
   },
   "devDependencies": {
-    "@types/chai": "4.3.3",
+    "@types/chai": "4.3.4",
     "@types/mocha": "9.1.1",
     "chai": "4.3.6",
     "commitizen": "^4.2.5",
